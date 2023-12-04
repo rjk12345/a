@@ -1,0 +1,465 @@
+Slip3
+function ValidateEmail(inputText)
+{
+var mailformat = /^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/;
+if(inputText.value.match(mailformat))
+{
+alert("You have entered a valid email address!");    //The pop up alert for a valid email address
+document.form1.text1.focus();
+return true;
+}
+else
+{
+alert("You have entered an invalid email address!");    //The pop up alert for an invalid email address
+document.form1.text1.focus();
+return false;
+}
+}
+**************************************************************************
+**************************************************************************
+Slip4
+var http = require('http');
+var uc = require('upper-case');
+http.createServer(function (req, res) {
+  res.writeHead(200, {'Content-Type': 'text/html'});
+  /*Use our upper-case module to upper case a string:*/
+  res.write(uc.upperCase("Hello World!"));
+  res.end();
+}).listen(8080);
+**************************************************************************
+**************************************************************************
+Slip5
+var fs=require('fs');
+ 
+fs.appendFile('f1.txt','f2.txt',
+function(err){
+if(err) throw err;
+console.log('Updated');
+});
+***************************************************************************
+***************************************************************************
+Slip8
+var mysql = require('mysql');
+
+var con = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "Ruchita@1234"
+});
+
+con.connect(function(err) {
+  if (err) throw err;
+  console.log("Connected!");
+  con.query("CREATE DATABASE mydb", function (err, result) {
+    if (err) throw err;
+    console.log("Database created");
+  });
+});
+***************************************************************************
+***************************************************************************
+Slip9
+var mysql = require('mysql');  
+var con = mysql.createConnection({  
+host: "localhost",  
+user: "root",  
+password: "12345",  
+database: "javatpoint"  
+});  
+con.connect(function(err) {  
+if (err) throw err;  
+con.query("SELECT * FROM customers", function (err, result) {  
+if (err) throw err;  
+console.log(result);  
+});  
+***************************************************************************
+***************************************************************************
+Slip10
+var mysql = require('mysql');
+
+var con = mysql.createConnection({
+  host: "localhost",
+  user: "yourusername",
+  password: "yourpassword",
+  database: "mydb"
+});
+
+con.connect(function(err) {
+  if (err) throw err;
+  console.log("Connected!");
+  var sql = "INSERT INTO student (name, address) VALUES ?";
+  var values = [
+    ['John', 'Highway 71'],
+    ['Peter', 'Lowstreet 4'],
+    ['Amy', 'Apple st 652'],
+    ['Hannah', 'Mountain 21'],
+    ['Michael', 'Valley 345'],
+    ['Sandy', 'Ocean blvd 2'],
+    ['Betty', 'Green Grass 1'],
+    ['Richard', 'Sky st 331'],
+    ['Susan', 'One way 98'],
+    ['Vicky', 'Yellow Garden 2'],
+    ['Ben', 'Park Lane 38'],
+    ['William', 'Central st 954'],
+    ['Chuck', 'Main Road 989'],
+    ['Viola', 'Sideway 1633
+ ];
+  con.query(sql, [values], function (err, result) {
+    if (err) throw err;
+    console.log("Number of records inserted: " + result.affectedRows);
+  });
+});
+***************************************************************************
+***************************************************************************
+Slip11
+var mysql = require('mysql');
+
+var con = mysql.createConnection({
+  host: "localhost",
+  user: "yourusername",
+  password: "yourpassword",
+  database: "mydb"
+});
+
+con.connect(function(err) {
+  if (err) throw err;
+  var sql = "DELETE FROM customers WHERE address = 'Mountain 21'";
+  con.query(sql, function (err, result) {
+    if (err) throw err;
+    console.log("Number of records deleted: " + result.affectedRows);
+  });
+});
+***************************************************************************
+***************************************************************************
+Slip12
+var http = require('http'); // 1 - Import Node.js core module
+
+var server = http.createServer(function (req, res) {   // 2 - creating server
+
+    //handle incomming requests here..
+
+});
+
+server.listen(5000); //3 - listen for any incoming requests
+
+console.log('Node.js web server at port 5000 is running..');
+}
+
+***************************************************************************
+***************************************************************************
+Slip13
+<!--login.html-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Login and register form with Node.js, Express.js and MySQL</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <h2>Login and register form with Node.js, Express.js and MySQL</h2>
+      <h3>Login form</h3>
+      <form action="/dashboard" method="POST">
+        <div class="form-group mb-3">
+            <label>Username</label>
+            <input type="text" class="form-control" placeholder="Username" name="userName">
+        </div>
+        <div class="form-group mb-3">
+            <label>Password</label>
+            <input type="password" class="form-control" placeholder="Password" name="password">
+          </div>
+        <div class="d-grid mt-3">
+        <button type="submit" class="btn btn-primary form-control">Submit</button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
+Now we enter the codes of the login form in our server.js file:
+//server.js
+
+// upload `login.html` file to /login page
+app.get("/login", (req, res)=>{
+    res.sendFile(__dirname + "/login.html");
+});
+
+// get user data to /dashboard page
+app.post("/dashboard", encodeUrl, (req, res)=>{
+    var userName = req.body.userName;
+    var password = req.body.password;
+
+    con.connect(function(err) {
+        if(err){
+            console.log(err);
+        };
+//get user data from MySQL database
+        con.query(`SELECT * FROM users WHERE username = '${userName}' AND password = '${password}'`, function (err, result) {
+          if(err){
+            console.log(err);
+          };
+// creating userPage function to create user page
+          function userPage(){
+            // We create a session for the dashboard (user page) page and save the user data to this session:
+            req.session.user = {
+                firstname: result[0].firstname, // get MySQL row data
+                lastname: result[0].lastname, // get MySQL row dataa
+                username: userName,
+                password: password 
+            };
+
+            res.send(`
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <title>Login and register form with Node.js, Express.js and MySQL</title>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1">
+                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+            </head>
+            <body>
+                <div class="container">
+                    <h3>Hi, ${req.session.user.firstname} ${req.session.user.lastname}</h3>
+                    <a href="/">Log out</a>
+                </div>
+            </body>
+            </html>
+            `);
+        }
+
+        if(Object.keys(result).length > 0){
+            userPage();
+        }else{
+            res.sendFile(__dirname + '/failLog.html');
+        }
+
+        });
+    });
+});
+<!--failLog.html-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Login and register form with Node.js, Express.js and MySQL</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+        <center>
+            <h3 class="text-danger">This username or password error!</h3>
+            <a href="/">Try again</a>
+        </center>
+    </div>
+  </body>
+</html>
+All the code in server.js:
+const express = require('express');
+const cookieParser = require("cookie-parser");
+const sessions = require('express-session');
+const http = require('http');
+var parseUrl = require('body-parser');
+const app = express();
+
+var mysql = require('mysql');
+const { encode } = require('punycode');
+
+let encodeUrl = parseUrl.urlencoded({ extended: false });
+
+//session middleware
+app.use(sessions({
+    secret: "thisismysecrctekey",
+    saveUninitialized:true,
+    cookie: { maxAge: 1000 * 60 * 60 * 24 }, // 24 hours
+    resave: false
+}));
+
+app.use(cookieParser());
+
+var con = mysql.createConnection({
+    host: "localhost",
+    user: "root", // my username
+    password: "123456789", // my password
+    database: "myform"
+});
+
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/register.html');
+})
+
+app.post('/register', encodeUrl, (req, res) => {
+    var firstName = req.body.firstName;
+    var lastName = req.body.lastName;
+    var userName = req.body.userName;
+    var password = req.body.password;
+
+    con.connect(function(err) {
+        if (err){
+            console.log(err);
+        };
+        // checking user already registered or no
+        con.query(`SELECT * FROM users WHERE username = '${userName}' AND password  = '${password}'`, function(err, result){
+            if(err){
+                console.log(err);
+            };
+            if(Object.keys(result).length > 0){
+                res.sendFile(__dirname + '/failReg.html');
+            }else{
+            //creating user page in userPage function
+            function userPage(){
+                // We create a session for the dashboard (user page) page and save the user data to this session:
+                req.session.user = {
+                    firstname: firstName,
+                    lastname: lastName,
+                    username: userName,
+                    password: password 
+                };
+
+                res.send(`
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <title>Login and register form with Node.js, Express.js and MySQL</title>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1">
+                    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+                </head>
+                <body>
+                    <div class="container">
+                        <h3>Hi, ${req.session.user.firstname} ${req.session.user.lastname}</h3>
+                        <a href="/">Log out</a>
+                    </div>
+                </body>
+                </html>
+                `);
+            }
+                // inserting new user data
+                var sql = `INSERT INTO users (firstname, lastname, username, password) VALUES ('${firstName}', '${lastName}', '${userName}', '${password}')`;
+                con.query(sql, function (err, result) {
+                    if (err){
+                        console.log(err);
+                    }else{
+                        // using userPage function for creating user page
+                        userPage();
+                    };
+                });
+
+        }
+
+        });
+    });
+
+
+});
+
+app.get("/login", (req, res)=>{
+    res.sendFile(__dirname + "/login.html");
+});
+
+app.post("/dashboard", encodeUrl, (req, res)=>{
+    var userName = req.body.userName;
+    var password = req.body.password;
+
+    con.connect(function(err) {
+        if(err){
+            console.log(err);
+        };
+        con.query(`SELECT * FROM users WHERE username = '${userName}' AND password = '${password}'`, function (err, result) {
+          if(err){
+            console.log(err);
+          };
+
+          function userPage(){
+            // We create a session for the dashboard (user page) page and save the user data to this session:
+            req.session.user = {
+                firstname: result[0].firstname,
+                lastname: result[0].lastname,
+                username: userName,
+                password: password 
+            };
+
+            res.send(`
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <title>Login and register form with Node.js, Express.js and MySQL</title>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1">
+                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+            </head>
+            <body>
+                <div class="container">
+                    <h3>Hi, ${req.session.user.firstname} ${req.session.user.lastname}</h3>
+                    <a href="/">Log out</a>
+                </div>
+            </body>
+            </html>
+            `);
+        }
+
+        if(Object.keys(result).length > 0){
+            userPage();
+        }else{
+            res.sendFile(__dirname + '/failLog.html');
+        }
+
+        });
+    
+});
+
+app.listen(4000, ()=>{
+    console.log("Server running on port 4000");
+});
+***************************************************************************
+***************************************************************************
+Slip16
+var events = require('events');
+ //create an object of EventEmitter class by using above reference 
+var em = new events.EventEmitter();
+ // to bind an event handler with an event:
+ em.on('FirstEvent', function (data) {
+ console.log('First subscriber: ' + data); }); 
+// Fire an event
+ em.emit('FirstEvent', 'This is my first Node.js event emitter example.');
+
+// Import events module  
+var events = require('events');  
+// Create an eventEmitter object  
+var eventEmitter = new events.EventEmitter();  
+  
+// Create an event handler as follows  
+var connectHandler = function connected() {  
+   console.log('connection succesful.');  
+    
+   // Fire the data_received event   
+   eventEmitter.emit('data_received');  
+}  
+  
+// Bind the connection event with the handler  
+eventEmitter.on('connection', connectHandler);  
+ // Bind the data_received event with the anonymous function  
+eventEmitter.on('data_received', function(){  
+   console.log('data received succesfully.');  
+});  
+// Fire the connection event   
+eventEmitter.emit('connection');  
+console.log("Program Ended."); 
+***************************************************************************
+***************************************************************************
+Slip17
+const express = require('express');
+const app = express();
+const path = require('path');
+ 
+//route to download a file
+app.get('/download/:file(*)',(req, res) => {
+var file = req.params.file;
+var fileLocation = path.join('./uploads',file);
+console.log(fileLocation);
+res.download(fileLocation, file);
+});
+ 
+app.listen(3000,() => {
+console.log(`application is running at: http://localhost:3000`);
+});
